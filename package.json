@@ -21,6 +21,7 @@
     "bootstrap": "^4.3.1",
     "electron-store": "^4.0.0",
     "jquery": "^3.4.1",
+    "mcprotocol": "^0.1.1",
     "nodes7": "^0.3.4",
     "popper.js": "^1.15.0"
   }

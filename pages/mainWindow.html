@@ -22,7 +22,11 @@
 
   <div class="container">
     <div class="row" style="margin-top: 30px;">
-      Testing
+      <button type="button" class="btn btn-success" id="start">Start</button>
+      <button type="button" class="btn btn-danger" id="stop">Stop</button>
+
+      <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed1" id="speed1">
+      <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque1" id="torque1">
     </div>
   </div>
 
@@ -35,11 +39,57 @@
 
   <!-- IPC script -->
   <script>
-   // Show when ready
-   $(document).ready(() => {
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    let vm;
+
+    const startViewModel = () => {
+
+      function AppViewModel() {
+        this.speed1 = ko.observable(0);
+        this.torque1 = ko.observable(0);
+      }
+
+      vm = new AppViewModel();
+      ko.applyBindings(vm);
+    };
+
+    const click = () => {
+      document.getElementById('start').onclick = () => {
+        ipcRenderer.send('start', true);
+      };
+
+      document.getElementById('stop').onclick = () => {
+        ipcRenderer.send('stop', true);
+      };
+
+      $('#speed1').on('keypress', function (e) {
+        if (e.which === 13) {
+          const data = parseInt(this.value);
+          if (data >= 0) {
+            ipcRenderer.send('speed1', data);
+          }
+        };
+      });
+
+      $('#torque1').on('keypress', function (e) {
+        if (e.which === 13) {
+          const data = parseInt(this.value);
+          if (data >= 0) {
+            ipcRenderer.send('torque1', data);
+          }
+        };
+      });
+
+    };
+
+    // Show when ready
+    $(document).ready(() => {
       $('body').show();
-   });
+      click();
+    });
   </script>
 
 </body>
+
 </html>
