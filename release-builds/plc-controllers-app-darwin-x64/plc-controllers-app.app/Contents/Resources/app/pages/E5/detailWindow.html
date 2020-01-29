@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PLC Controllers App</title>
+
+  <link rel="stylesheet" href="../../assets/styles/mainWindow.css">
+
+  <style>
+    .station-mid {
+      width: 250px;
+    }
+
+    .station-longer {
+      width: 250px;
+    }
+  </style>
+</head>
+
+<body style="background-color: #6095C9; text-align: center; margin: 10px; display: none;">
+
+  <div class="container">
+    <div class="row" style="margin-top: 65px;">
+      <div class="col-8" style="padding-left: 25%">
+        <h1 class="header" style=" text-align: center;
+            width: 275px;
+            border: 1px solid black;
+            background-color: white;
+            padding: 10px;
+            color: black; border-radius: 5px;
+            margin: 0px;">E5 Station</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 55px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid"
+          onclick="window.location.href='./station8/detailWindow.html'" style="background-color: white;">
+          <!-- NB -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> NB </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: NBStyle"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid"
+          onclick="window.location.href='./station7/detailWindow.html'" style="background-color: white;">
+          <!-- EB -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> EB </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: EBStyle"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- <div class="row"> -->
+    <!-- Detail 1 -->
+    <!-- <div class="col-4">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./clading2/llWindow.html'" 
+        style="background-color: white;">
+          EB
+        </button>
+      </div> -->
+
+    <!-- Detail 2 -->
+    <!-- <div class="col-8">
+        <button type="button" class="btn station station-longer" style="background-color: white;">
+          Cading, SideBeam EB
+        </button>
+      </div> -->
+    <!-- </div> -->
+
+    <!-- Datetime -->
+    <div class="row" style="margin-top: 45px;">
+      <div class="col-2" style="margin-top: 25px;">
+        <span>
+          <a href="../mainWindow.html">
+            <img src="../../assets/images/home-v1.png" alt="home" class="thumbnails" style="height: 55px" />
+          </a>
+        </span>
+
+      </div>
+      <div class="col-8">
+        <div class="footer" style="width: 300px; padding-top: 15px;" data-bind="text: time"></button>
+        </div>
+      </div>
+      <div class="col-2">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../../helpers/knockout.js"></script>
+
+  <!-- IPC script -->
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    const { CHANNELS, COLORS, monthNames } = require('../../helpers/environments');
+    const STATION1 = require('../../data/station1');
+    const Store = require('electron-store');
+    const store = new Store();
+    const keys = STATION1.storedKeys;
+
+    const greenColor = {
+      'background-color': COLORS.green
+    };
+    const redColor = {
+      'background-color': COLORS.red
+    };
+
+    const yellowColor = {
+      'background-color': COLORS.yellow
+    };
+
+    let vm;
+
+    // Start View Model
+    const _startViewModel = () => {
+      // Knockout functions
+      function AppViewModel() {
+        this.time = ko.observable('Reading...');
+        this.NBStyle = ko.observable(redColor);
+        this.EBStyle = ko.observable(redColor);
+      }
+
+      // Activates knockout.js
+      vm = new AppViewModel();
+      ko.applyBindings(vm);
+    };
+
+    // Get from store
+    const _getFromStore = () => {
+      const headerDatetime = store.get(keys.headerDatetime);
+      vm.time(headerDatetime);
+
+      // NB
+      const data1 = store.get('S8_M218_3');
+      if (data1 !== undefined) {
+        if (data1) {
+          vm.NBStyle(greenColor);
+        } else {
+          vm.NBStyle(redColor);
+        }
+      } else {
+        vm.NBStyle(yellowColor);
+      }
+
+      // EB
+      const data2 = store.get('S7_M218_3');
+      if (data2 !== undefined) {
+        if (data2) {
+          vm.EBStyle(greenColor);
+        } else {
+          vm.EBStyle(redColor);
+        }
+      } else {
+        vm.EBStyle(yellowColor);
+      }
+    };
+
+    // Read streaming
+    const _readStreaming = () => {
+      setInterval(() => {
+
+        const d = new Date(); // for now
+        const hh = d.getHours(); // => 9
+        const mm = d.getMinutes(); // =>  30
+        const ss = d.getSeconds();
+        const day = d.getDate();
+        const mo = d.getMonth();
+        const yr = d.getFullYear();
+
+        const dt = `${day} ${monthNames[mo]} ${yr} ${hh}:${mm}:${ss}`;
+        console.log(dt);
+        vm.time(dt);
+
+      }, 1000);
+      // ipcRenderer.on(CHANNELS.datetime, (e, datetime) => {
+      //   vm.time(datetime);
+      // });
+
+      // NB
+      ipcRenderer.on(CHANNELS.onStation8, (e, data) => {
+        if (data.M218_3 !== undefined) {
+          if (data.M218_3) {
+            vm.NBStyle(greenColor);
+          } else {
+            vm.NBStyle(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.NBStyle(yellowColor);
+        }
+
+      });
+
+      // EB
+      ipcRenderer.on(CHANNELS.onStation7, (e, data) => {
+        if (data.M218_3 !== undefined) {
+          if (data.M218_3) {
+            vm.EBStyle(greenColor);
+          } else {
+            vm.EBStyle(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.EBStyle(yellowColor);
+        }
+      });
+
+    };
+
+    // Show when ready
+    $(document).ready(() => {
+      $('body').show();
+      // ipcRenderer.send(CHANNELS.onNewStation, 4);
+
+      _startViewModel();
+      _getFromStore();
+      _readStreaming();
+    });
+
+
+  </script>
+
+</body>
+
+</html>

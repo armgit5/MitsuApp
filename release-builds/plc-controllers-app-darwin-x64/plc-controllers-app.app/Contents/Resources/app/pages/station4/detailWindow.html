@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PLC Controllers App</title>
+
+  <link rel="stylesheet" href="../../assets/styles/mainWindow.css">
+
+  <style>
+    .station-mid {
+      width: 250px;
+    }
+
+    .station-longer {
+      width: 250px;
+    }
+  </style>
+</head>
+
+<body style="background-color: #6095C9; text-align: center; margin: 10px; display: none;">
+
+  <div class="container">
+    <!-- <h1 class="header" style="text-align: left;">Clading, SideBeam, EB -->
+    <!-- </h1> -->
+
+    <div class="row" style="margin-top: 45px;">
+      <div class="col-12">
+        <h1 class="header" style=" text-align: center;
+              padding: 10px;
+              color: white;
+              margin: 0px;">Clading, SideBeam, EB</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow.html'"
+          style="background-color: white;">
+          <!-- Clading 1 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Clading 1 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Clading1Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-longer"
+          onclick="window.location.href='./sidebeam/llWindow.html'" style="background-color: white;">
+          <!-- SideBeam, D -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> SideBeam, D </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: SideBeamStyle"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./clading2/llWindow.html'"
+          style="background-color: white;">
+          <!-- Clading 2 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Clading2 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Clading2Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <!-- <div class="col-8">
+        <button type="button" class="btn station station-longer" style="background-color: white;">
+          Cading, SideBeam EB
+        </button>
+      </div> -->
+    </div>
+
+
+    <!-- Footer -->
+    <div class="row">
+      <div class="col-3" style="margin-top: 25px; padding: 0; left: -5%">
+        <span>
+          <a href="../detailWindow.html">
+            <img src="../../assets/images/left.png" alt="home" class="thumbnails" style="height: 55px" />
+          </a>
+          <a href="../mainWindow.html">
+            <img src="../../assets/images/home-v1.png" alt="home" class="thumbnails" style="height: 55px" />
+          </a>
+        </span>
+
+      </div>
+      <div class="col-9" style="padding: 0; left: -5%">
+        <div class="footer" style="width: 300px; padding-top: 15px;" data-bind="text: time"></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../../helpers/knockout.js"></script>
+
+  <!-- IPC script -->
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    const { CHANNELS, COLORS } = require('../../helpers/environments');
+    const STATION1 = require('../../data/station1');
+    const Store = require('electron-store');
+    const store = new Store();
+    const keys = STATION1.storedKeys;
+
+    const greenColor = {
+      'background-color': COLORS.green
+    };
+    const redColor = {
+      'background-color': COLORS.red
+    };
+    const yellowColor = {
+      'background-color': COLORS.yellow
+    };
+    let vm;
+
+    // Start View Model
+    const _startViewModel = () => {
+      // Knockout functions
+      function AppViewModel() {
+        this.time = ko.observable('Reading...');
+        this.Clading1Style = ko.observable(redColor);
+        this.Clading2Style = ko.observable(redColor);
+        this.SideBeamStyle = ko.observable(redColor);
+      }
+
+      // Activates knockout.js
+      vm = new AppViewModel();
+      ko.applyBindings(vm);
+    };
+
+    // Get from store
+    const _getFromStore = () => {
+      const headerDatetime = store.get(keys.headerDatetime);
+      vm.time(headerDatetime);
+
+      // Clading 1
+      const data1 = store.get('S4_M217_2');
+      console.log(data1);
+      if (data1 !== undefined) {
+        if (data1) {
+          vm.Clading1Style(greenColor);
+        } else {
+          vm.Clading1Style(redColor);
+        }
+      } else {
+        vm.Clading1Style(yellowColor);
+      }
+
+      // Clading 2
+      const data2 = store.get('S4_M217_3');
+      if (data2 !== undefined) {
+        if (data2) {
+          vm.Clading2Style(greenColor);
+        } else {
+          vm.Clading2Style(redColor);
+        }
+      } else {
+        vm.Clading2Style(yellowColor);
+      }
+
+      // Side Beam
+      const data3 = store.get('S4_M217_4');
+      if (data3 !== undefined) {
+        if (data3) {
+          vm.SideBeamStyle(greenColor);
+        } else {
+          vm.SideBeamStyle(redColor);
+        }
+      } else {
+        vm.SideBeamStyle(yellowColor);
+      }
+
+    };
+
+    // Read streaming
+    const _readStreaming = () => {
+      ipcRenderer.on(CHANNELS.datetime, (e, datetime) => {
+        vm.time(datetime);
+      });
+
+      // Clading 1
+      ipcRenderer.on(CHANNELS.onStation4, (e, data) => {
+        console.log(data.M217_2);
+        if (data.M217_2 !== undefined) {
+          if (data.M217_2) {
+            vm.Clading1Style(greenColor);
+          } else {
+            vm.Clading1Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Clading1Style(yellowColor);
+        }
+      });
+
+      // Clading 2
+      ipcRenderer.on(CHANNELS.onStation4, (e, data) => {
+        if (data.M217_3 !== undefined) {
+          if (data.M217_3) {
+            vm.Clading2Style(greenColor);
+          } else {
+            vm.Clading2Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Clading2Style(yellowColor);
+        }
+      });
+
+      // Side Beam
+      ipcRenderer.on(CHANNELS.onStation4, (e, data) => {
+        if (data.M217_4 !== undefined) {
+          if (data.M217_4) {
+            vm.SideBeamStyle(greenColor);
+          } else {
+            vm.SideBeamStyle(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.SideBeamStyle(yellowColor);
+        }
+      });
+
+    };
+
+    // Show when ready
+    $(document).ready(() => {
+      $('body').show();
+      ipcRenderer.send(CHANNELS.onNewStation, 4);
+
+      _startViewModel();
+      _getFromStore();
+      _readStreaming();
+    });
+
+
+  </script>
+
+</body>
+
+</html>

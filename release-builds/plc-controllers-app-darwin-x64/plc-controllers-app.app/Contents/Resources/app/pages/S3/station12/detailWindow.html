@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PLC Controllers App</title>
+
+  <link rel="stylesheet" href="../../../assets/styles/mainWindow.css">
+
+  <style>
+    .station-mid {
+      width: 225px;
+      height: 65px;
+    }
+
+    .station-longer {
+      width: 225px;
+      height: 65px;
+    }
+
+    .footer {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body style="background-color: #6095C9; text-align: center; margin: 10px; display: none;">
+
+  <div class="container">
+
+    <div class="row" style="margin-top: 35px;">
+      <div class="col-8" style="padding-left: 25%">
+        <h1 class="header" style=" text-align: center;
+              width: 275px;
+              border: 1px solid black;
+              background-color: white;
+              padding: 10px;
+              color: black; border-radius: 5px;
+              margin: 0px;">S3 Station_WB</h1>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 35px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow.html'"
+          style="background-color: white; padding-top: 0px;">
+          <!-- Screen 1 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Screen 1 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Screen1Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <div class="col-3">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow4.html'"
+          style="background-color: white; padding-top: 0px;">
+          <!-- Screen 4 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Screen 4 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Screen4Style"></span>
+              </div>
+            </div>
+          </div>
+
+        </button>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow2.html'"
+          style="background-color: white; padding-top: 0px;">
+          <!-- Screen 2 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Screen 2 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Screen2Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <div class="col-3">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow5.html'"
+          style="background-color: white; padding-top: 0px;">
+          <!-- Screen 5 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Screen 5 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Screen5Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px;">
+      <!-- Detail 1 -->
+      <div class="col-6">
+        <button type="button" class="btn station station-mid" onclick="window.location.href='./llWindow3.html'"
+          style="background-color: white; padding-top: 0px;">
+          <!-- Screen 3 -->
+          <div class="row main">
+            <div class="col-8" style="padding: 0;">
+              <span> Screen 3 </span>
+            </div>
+            <div class="col-4" style="padding: 0">
+              <div class="col" style="padding: 0">
+                <span class="dot" data-bind="style: Screen3Style"></span>
+              </div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Detail 2 -->
+      <!-- <div class="col-3">
+            <button type="button" class="btn station station-mid" onclick="window.location.href='./sidebeam/llWindow.html'"
+             style="background-color: white;">
+             Screen 2
+            </button>
+          </div> -->
+    </div>
+
+    <!-- Datetime -->
+    <div class="row" style="margin-top: 25px;">
+      <div class="col-3" style="padding: 0; left: -5%">
+        <span>
+          <a href="../detailWindow.html">
+            <img src="../../../assets/images/left.png" alt="home" class="thumbnails" style="height: 55px" />
+          </a>
+          <a href="../../mainWindow.html">
+            <img src="../../../assets/images/home-v1.png" alt="home" class="thumbnails" style="height: 55px" />
+          </a>
+        </span>
+
+      </div>
+      <div class="col-9" style="padding: 0; left: -5%">
+        <div class="footer" style="width: 300px; padding-top: 15px; " data-bind="text: time"></button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="../../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../../../helpers/knockout.js"></script>
+
+  <!-- IPC script -->
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    const { CHANNELS, COLORS } = require('../../../helpers/environments');
+    const STATION1 = require('../../../data/station1');
+    const Store = require('electron-store');
+    const store = new Store();
+    const keys = STATION1.storedKeys;
+
+    const greenColor = {
+      'background-color': COLORS.green
+    };
+    const redColor = {
+      'background-color': COLORS.red
+    };
+    const yellowColor = {
+      'background-color': COLORS.yellow
+    };
+    let vm;
+
+    // Start View Model
+    const _startViewModel = () => {
+      // Knockout functions
+      function AppViewModel() {
+        this.time = ko.observable('Reading...');
+        this.Screen1Style = ko.observable(redColor);
+        this.Screen2Style = ko.observable(redColor);
+        this.Screen3Style = ko.observable(redColor);
+        this.Screen4Style = ko.observable(redColor);
+        this.Screen5Style = ko.observable(redColor);
+      }
+
+      // Activates knockout.js
+      vm = new AppViewModel();
+      ko.applyBindings(vm);
+    };
+
+    // Get from store
+    const _getFromStore = () => {
+      const headerDatetime = store.get(keys.headerDatetime);
+      vm.time(headerDatetime);
+
+      // Screen 1
+      const data1 = store.get('S12_M217_5');
+      // console.log(data.M217_5);
+      if (data1 !== undefined) {
+        if (data1) {
+          vm.Screen1Style(greenColor);
+        } else {
+          vm.Screen1Style(redColor);
+        }
+      } else {
+        vm.Screen1Style(yellowColor);
+      }
+
+      // Screen 2
+      const data2 = store.get('S12_M217_6');
+      if (data2 !== undefined) {
+        if (data2) {
+          vm.Screen2Style(greenColor);
+        } else {
+          vm.Screen2Style(redColor);
+        }
+      } else {
+        vm.Screen2Style(yellowColor);
+      }
+
+      // Screen 3
+      const data3 = store.get('S12_M217_7');
+      if (data3 !== undefined) {
+        if (data3) {
+          vm.Screen3Style(greenColor);
+        } else {
+          vm.Screen3Style(redColor);
+        }
+      } else {
+        vm.Screen3Style(yellowColor);
+      }
+
+      // Screen 4
+      const data4 = store.get('S12_M218_0');
+      if (data4 !== undefined) {
+        if (data4) {
+          vm.Screen4Style(greenColor);
+        } else {
+          vm.Screen4Style(redColor);
+        }
+      } else {
+        vm.Screen4Style(yellowColor);
+      }
+
+      // Screen 5
+      const data5 = store.get('S12_M218_1');
+      if (data5 !== undefined) {
+        if (data5) {
+          vm.Screen5Style(greenColor);
+        } else {
+          vm.Screen5Style(redColor);
+        }
+      } else {
+        vm.Screen5Style(yellowColor);
+      }
+
+
+    };
+
+    // Read streaming
+    const _readStreaming = () => {
+      ipcRenderer.on(CHANNELS.datetime, (e, datetime) => {
+        vm.time(datetime);
+      });
+
+      // Screen 1
+      ipcRenderer.on(CHANNELS.onStation12, (e, data) => {
+        console.log(data.M217_5);
+        if (data.M217_5 !== undefined) {
+          if (data.M217_5) {
+            vm.Screen1Style(greenColor);
+          } else {
+            vm.Screen1Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Screen1Style(yellowColor);
+        }
+      });
+
+      // Screen 2
+      ipcRenderer.on(CHANNELS.onStation12, (e, data) => {
+        if (data.M217_6 !== undefined) {
+          if (data.M217_6) {
+            vm.Screen2Style(greenColor);
+          } else {
+            vm.Screen2Style(redColor);
+          }
+        } 
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Screen2Style(yellowColor);
+        }
+
+      });
+
+      // Screen 3
+      ipcRenderer.on(CHANNELS.onStation12, (e, data) => {
+        if (data.M217_7 !== undefined) {
+          if (data.M217_7) {
+            vm.Screen3Style(greenColor);
+          } else {
+            vm.Screen3Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Screen3Style(yellowColor);
+        }
+
+      });
+
+      // Screen 4
+      ipcRenderer.on(CHANNELS.onStation12, (e, data) => {
+        if (data.M218_0 !== undefined) {
+          if (data.M218_0) {
+            vm.Screen4Style(greenColor);
+          } else {
+            vm.Screen4Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Screen4Style(yellowColor);
+        }
+
+      });
+
+      // Screen 5
+      ipcRenderer.on(CHANNELS.onStation12, (e, data) => {
+        if (data.M218_1 !== undefined) {
+          if (data.M218_1) {
+            vm.Screen5Style(greenColor);
+          } else {
+            vm.Screen5Style(redColor);
+          }
+        }
+
+        if (data.blink !== undefined && data.blink) {
+          vm.Screen5Style(yellowColor);
+        }
+
+      });
+
+
+    };
+
+    // Show when ready
+    $(document).ready(() => {
+      $('body').show();
+      ipcRenderer.send(CHANNELS.onNewStation, 12);
+
+      _startViewModel();
+      _getFromStore();
+      _readStreaming();
+    });
+
+
+  </script>
+
+</body>
+
+</html>

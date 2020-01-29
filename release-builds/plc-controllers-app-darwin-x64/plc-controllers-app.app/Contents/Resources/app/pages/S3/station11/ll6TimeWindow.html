@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>PLC Controllers App</title>
+
+    <link rel="stylesheet" href="../../../assets/styles/mainWindow.css">
+
+    <style>
+        .station-mid {
+            width: 150px;
+        }
+
+        .station-longer {
+            width: 300px;
+        }
+
+        .time-border {
+            border: 2px solid gray;
+            border-radius: 5px;
+        }
+
+        .col-4 input {
+            background-color: black;
+            color: white;
+        }
+
+        input {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body style="background-color: #6095C9; text-align: center; margin: 10px; display: none;">
+
+    <div class="container">
+        <div class="row header-row">
+            <div class="col-6">
+                <h1 class="header" style="text-align: left; margin: 0px;">
+                    S3_SB_SC2-3
+                </h1>
+
+            </div>
+
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- <button type="button" class="btn station" style="padding: 0px" id="pcEdit"
+                            data-bind="text: pcEdit"></button> -->
+                    </div>
+                    <div class="col-6">
+                        <div class="footer" style="margin-top: 0px" data-bind="text: time">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Time On Off -->
+        <div class="row">
+                <div class="col-1"></div>
+                <div class="col-5 time-border" style="background-color: #50FF00; height: 40px; font-size: larger;">
+                    Time On
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5 time-border" style="background-color: yellow; height: 40px; font-size: larger;">
+                    Time Off
+                </div>
+                <!-- <div class="col2"></div> -->
+            </div>
+    
+            <!-- HH MM SS -->
+            <div class="row" style="margin-top: 0; height: 25px;">
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4">HH</div>
+                        <div class="col-4">MM</div>
+                        <div class="col-4">SS</div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4">HH</div>
+                        <div class="col-4">MM</div>
+                        <div class="col-4">SS</div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Step 1 -->
+            <div class="row" style="margin-top: 0;">
+                <div class="col-1">
+                    <div class="row" style="padding-left: 15px; padding-top: 10px;">1</div>
+                </div>
+    
+                <!-- Detail 1 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step1OnHH"
+                                data-bind="value: step1OnHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step1OnMM"
+                                data-bind="value: step1OnMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step1OnSS"
+                                data-bind="value: step1OnSS">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-1"></div>
+    
+                <!-- Detail 2 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step1OffHH"
+                                data-bind="value: step1OffHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step1OffMM"
+                                data-bind="value: step1OffMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step1OffSS"
+                                data-bind="value: step1OffSS">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Step 2 -->
+            <div class="row" style="margin-top: 0px">
+                <div class="col-1">
+                    <div class="row" style="padding-left: 15px; padding-top: 10px;">2</div>
+                </div>
+    
+                <!-- Detail 1 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step2OnHH"
+                                data-bind="value: step2OnHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step2OnMM"
+                                data-bind="value: step2OnMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step2OnSS"
+                                data-bind="value: step2OnSS">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-1"></div>
+    
+                <!-- Detail 2 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step2OffHH"
+                                data-bind="value: step2OffHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step2OffMM"
+                                data-bind="value: step2OffMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step2OffSS"
+                                data-bind="value: step2OffSS">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Step 3 -->
+            <div class="row" style="margin-top: 0px">
+                <div class="col-1">
+                    <div class="row" style="padding-left: 15px; padding-top: 10px;">3</div>
+                </div>
+    
+                <!-- Detail 1 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step3OnHH"
+                                data-bind="value: step3OnHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step3OnMM"
+                                data-bind="value: step3OnMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step3OnSS"
+                                data-bind="value: step3OnSS">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-1"></div>
+    
+                <!-- Detail 2 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step3OffHH"
+                                data-bind="value: step3OffHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step3OffMM"
+                                data-bind="value: step3OffMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step3OffSS"
+                                data-bind="value: step3OffSS">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Step 4 -->
+            <div class="row" style="margin-top: 0px">
+                <div class="col-1">
+                    <div class="row" style="padding-left: 15px; padding-top: 10px;">4</div>
+                </div>
+    
+                <!-- Detail 1 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step4OnHH"
+                                data-bind="value: step4OnHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step4OnMM"
+                                data-bind="value: step4OnMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step4OnSS"
+                                data-bind="value: step4OnSS">
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="col-1"></div>
+    
+                <!-- Detail 2 -->
+                <div class="col-5">
+                    <div class="row">
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="HH" id="step4OffHH"
+                                data-bind="value: step4OffHH">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="MM" id="step4OffMM"
+                                data-bind="value: step4OffMM">
+                        </div>
+                        <div class="col-4" style="padding: 0;">
+                            <input type="text" class="form-control" placeholder="SS" id="step4OffSS"
+                                data-bind="value: step4OffSS">
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Footer -->
+            <div class="row" style="margin-top: 25px;">
+                <span>
+                    <a href="" id="back">
+                        <img src="../../../assets/images/left.png" alt="home" class="thumbnails" style="height: 55px" />
+                    </a>
+                    &nbsp;
+                    <a href="" id="home">
+                        <img src="../../../assets/images/home-v1.png" alt="home" class="thumbnails" style="height: 55px" />
+                    </a>
+                </span>
+            </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="../../../helpers/knockout.js"></script>
+
+    <!-- IPC script -->
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        const { CHANNELS } = require('../../../helpers/environments');
+        const STATION1 = require('../../../data/station1');
+        const Store = require('electron-store');
+        const store = new Store();
+        const keys = STATION1.storedKeys;
+
+        const greenColor = {
+            'background-color': 'green'
+        };
+        const redColor = {
+            'background-color': 'red'
+        };
+        let vm;
+
+        // Make 2 digit helper function
+        const _make2Digits = (data) => {
+            if (data < 10) {
+                return '0' + data;
+            } else {
+                return data;
+            }
+        };
+
+        // Start View Model
+        const _startViewModel = () => {
+            // Knockout functions
+            function AppViewModel() {
+                this.time = ko.observable('Reading...');
+                this.S1Style = ko.observable(redColor);
+                this.S1_1Style = ko.observable(redColor);
+
+                // Step 1
+                this.step1OnHH = ko.observable('00');
+                this.step1OnMM = ko.observable('00');
+                this.step1OnSS = ko.observable('00');
+                this.step1OffHH = ko.observable('00');
+                this.step1OffMM = ko.observable('00');
+                this.step1OffSS = ko.observable('00');
+
+                // Step 2
+                this.step2OnHH = ko.observable('00');
+                this.step2OnMM = ko.observable('00');
+                this.step2OnSS = ko.observable('00');
+                this.step2OffHH = ko.observable('00');
+                this.step2OffMM = ko.observable('00');
+                this.step2OffSS = ko.observable('00');
+
+                // Step 3
+                this.step3OnHH = ko.observable('00');
+                this.step3OnMM = ko.observable('00');
+                this.step3OnSS = ko.observable('00');
+                this.step3OffHH = ko.observable('00');
+                this.step3OffMM = ko.observable('00');
+                this.step3OffSS = ko.observable('00');
+
+                // Step 4
+                this.step4OnHH = ko.observable('00');
+                this.step4OnMM = ko.observable('00');
+                this.step4OnSS = ko.observable('00');
+                this.step4OffHH = ko.observable('00');
+                this.step4OffMM = ko.observable('00');
+                this.step4OffSS = ko.observable('00');
+            }
+
+            // Activates knockout.js
+            vm = new AppViewModel();
+            ko.applyBindings(vm);
+        };
+
+
+        const _setTimeToZero = () => {
+            // Step 1
+            vm.step1OnHH('00');
+            vm.step1OnMM('00');
+            vm.step1OnSS('00');
+            vm.step1OffHH('00');
+            vm.step1OffMM('00');
+            vm.step1OffSS('00');
+
+            // Step 2
+            vm.step2OnHH('00');
+            vm.step2OnMM('00');
+            vm.step2OnSS('00');
+            vm.step2OffHH('00');
+            vm.step2OffMM('00');
+            vm.step2OffSS('00');
+
+            // Step 3
+            vm.step3OnHH('00');
+            vm.step3OnMM('00');
+            vm.step3OnSS('00');
+            vm.step3OffHH('00');
+            vm.step3OffMM('00');
+            vm.step3OffSS('00');
+
+            // Step 4
+            vm.step4OnHH('00');
+            vm.step4OnMM('00');
+            vm.step4OnSS('00');
+            vm.step4OffHH('00');
+            vm.step4OffMM('00');
+            vm.step4OffSS('00');
+        }
+
+        const _checkForDisconnection = (datetime) => {
+            if (datetime === 'Reading...') {
+                $(':input').prop("disabled", true);
+                _setTimeToZero();
+            } else {
+                $(':input').prop("disabled", false);
+            }
+        }
+
+
+        // Get from store
+        const _getFromStore = () => {
+            const headerDatetime = store.get(keys.headerDatetime);
+            vm.time(headerDatetime);
+
+            _checkForDisconnection(headerDatetime);
+
+            _step1Store = () => {
+                const STEP = STATION1.datetime.ll6.step1;
+                if (store.get(STEP.onHH)) {
+                    const data = _make2Digits(store.get(STEP.onHH));
+                    vm.step1OnHH(data);
+                }
+                if (store.get(STEP.onMM)) {
+                    const data = _make2Digits(store.get(STEP.onMM));
+                    vm.step1OnMM(data);
+                }
+                if (store.get(STEP.onSS)) {
+                    const data = _make2Digits(store.get(STEP.onSS));
+                    vm.step1OnSS(data);
+                }
+                if (store.get(STEP.offHH)) {
+                    const data = _make2Digits(store.get(STEP.offHH));
+                    vm.step1OffHH(data);
+                }
+                if (store.get(STEP.offMM)) {
+                    const data = _make2Digits(store.get(STEP.offMM));
+                    vm.step1OffMM(data);
+                }
+                if (store.get(STEP.offSS)) {
+                    const data = _make2Digits(store.get(STEP.offSS));
+                    vm.step1OffSS(data);
+                }
+            };
+            _step1Store();
+
+            _step2Store = () => {
+                const STEP = STATION1.datetime.ll6.step2;
+                if (store.get(STEP.onHH)) {
+                    const data = _make2Digits(store.get(STEP.onHH));
+                    vm.step2OnHH(data);
+                }
+                if (store.get(STEP.onMM)) {
+                    const data = _make2Digits(store.get(STEP.onMM));
+                    vm.step2OnMM(data);
+                }
+                if (store.get(STEP.onSS)) {
+                    const data = _make2Digits(store.get(STEP.onSS));
+                    vm.step2OnSS(data);
+                }
+                if (store.get(STEP.offHH)) {
+                    const data = _make2Digits(store.get(STEP.offHH));
+                    vm.step2OffHH(data);
+                }
+                if (store.get(STEP.offMM)) {
+                    const data = _make2Digits(store.get(STEP.offMM));
+                    vm.step2OffMM(data);
+                }
+                if (store.get(STEP.offSS)) {
+                    const data = _make2Digits(store.get(STEP.offSS));
+                    vm.step2OffSS(data);
+                }
+            };
+            _step2Store();
+
+            _step3Store = () => {
+                const STEP = STATION1.datetime.ll6.step3;
+                if (store.get(STEP.onHH)) {
+                    const data = _make2Digits(store.get(STEP.onHH));
+                    vm.step3OnHH(data);
+                }
+                if (store.get(STEP.onMM)) {
+                    const data = _make2Digits(store.get(STEP.onMM));
+                    vm.step3OnMM(data);
+                }
+                if (store.get(STEP.onSS)) {
+                    const data = _make2Digits(store.get(STEP.onSS));
+                    vm.step3OnSS(data);
+                }
+                if (store.get(STEP.offHH)) {
+                    const data = _make2Digits(store.get(STEP.offHH));
+                    vm.step3OffHH(data);
+                }
+                if (store.get(STEP.offMM)) {
+                    const data = _make2Digits(store.get(STEP.offMM));
+                    vm.step3OffMM(data);
+                }
+                if (store.get(STEP.offSS)) {
+                    const data = _make2Digits(store.get(STEP.offSS));
+                    vm.step3OffSS(data);
+                }
+            };
+            _step3Store();
+
+            _step4Store = () => {
+                const STEP = STATION1.datetime.ll6.step4;
+                 if (store.get(STEP.onHH)) {
+                    const data = _make2Digits(store.get(STEP.onHH));
+                    vm.step4OnHH(data);
+                }
+                if (store.get(STEP.onMM)) {
+                    const data = _make2Digits(store.get(STEP.onMM));
+                    vm.step4OnMM(data);
+                }
+                if (store.get(STEP.onSS)) {
+                    const data = _make2Digits(store.get(STEP.onSS));
+                    vm.step4OnSS(data);
+                }
+                if (store.get(STEP.offHH)) {
+                    const data = _make2Digits(store.get(STEP.offHH));
+                    vm.step4OffHH(data);
+                }
+                if (store.get(STEP.offMM)) {
+                    const data = _make2Digits(store.get(STEP.offMM));
+                    vm.step4OffMM(data);
+                }
+                if (store.get(STEP.offSS)) {
+                    const data = _make2Digits(store.get(STEP.offSS));
+                    vm.step4OffSS(data);
+                }
+            };
+            _step4Store();
+        };
+
+        // Read streaming
+        const _readStreaming = () => {
+            ipcRenderer.on(CHANNELS.datetime, (e, datetime) => {
+                vm.time(datetime);
+
+                _checkForDisconnection(datetime);
+            });
+
+            _step1Read = () => {
+                const STEP = STATION1.datetime.ll6.step1;
+                ipcRenderer.on(STEP.onHH, (e, data) => {
+
+                    if (data < 10) {
+                        vm.step1OnHH('0' + data);
+                    } else {
+                        vm.step1OnHH(data);
+                    }
+                });
+                ipcRenderer.on(STEP.onMM, (e, data) => {
+                    if (data < 10) {
+                        vm.step1OnMM('0' + data);
+                    } else {
+                        vm.step1OnMM(data);
+                    }
+                });
+                ipcRenderer.on(STEP.onSS, (e, data) => {
+                    if (data < 10) {
+                        vm.step1OnSS('0' + data);
+                    } else {
+                        vm.step1OnSS(data);
+                    }
+                });
+                ipcRenderer.on(STEP.offHH, (e, data) => {
+                    if (data < 10) {
+                        vm.step1OffHH('0' + data);
+                    } else {
+                        vm.step1OffHH(data);
+                    }
+                });
+                ipcRenderer.on(STEP.offMM, (e, data) => {
+                    if (data < 10) {
+                        vm.step1OffMM('0' + data);
+                    } else {
+                        vm.step1OffMM(data);
+                    }
+                });
+                ipcRenderer.on(STEP.offSS, (e, data) => {
+                    if (data < 10) {
+                        vm.step1OffSS('0' + data);
+                    } else {
+                        vm.step1OffSS(data);
+                    }
+                });
+            };
+            _step1Read();
+
+            _step2Read = () => {
+                const STEP = STATION1.datetime.ll6.step2;
+                ipcRenderer.on(STEP.onHH, (e, data) => {
+                    vm.step2OnHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onMM, (e, data) => {
+                    vm.step2OnMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onSS, (e, data) => {
+                    vm.step2OnSS(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offHH, (e, data) => {
+                    vm.step2OffHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offMM, (e, data) => {
+                    vm.step2OffMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offSS, (e, data) => {
+                    vm.step2OffSS(_make2Digits(data));
+                });
+            };
+            _step2Read();
+
+            _step3Read = () => {
+                const STEP = STATION1.datetime.ll6.step3;
+                ipcRenderer.on(STEP.onHH, (e, data) => {
+                    vm.step3OnHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onMM, (e, data) => {
+                    vm.step3OnMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onSS, (e, data) => {
+                    vm.step3OnSS(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offHH, (e, data) => {
+                    vm.step3OffHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offMM, (e, data) => {
+                    vm.step3OffMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offSS, (e, data) => {
+                    vm.step3OffSS(_make2Digits(data));
+                });
+            };
+            _step3Read();
+
+            _step4Read = () => {
+                const STEP = STATION1.datetime.ll6.step4;
+                ipcRenderer.on(STEP.onHH, (e, data) => {
+                    vm.step4OnHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onMM, (e, data) => {
+                    vm.step4OnMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.onSS, (e, data) => {
+                    vm.step4OnSS(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offHH, (e, data) => {
+                    vm.step4OffHH(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offMM, (e, data) => {
+                    vm.step4OffMM(_make2Digits(data));
+                });
+                ipcRenderer.on(STEP.offSS, (e, data) => {
+                    vm.step4OffSS(_make2Digits(data));
+                });
+            };
+            _step4Read();
+        };
+
+        const _buttonClick = () => {
+
+            // Back button
+            document.getElementById("back").onclick = function () {
+                console.log("removed ll1 reads");
+                ipcRenderer.send(CHANNELS.removeLl6, true);
+                location.href = "llWindow2.html";
+            };
+
+            // Home button
+            document.getElementById("home").onclick = function () {
+                console.log("removed ll1 reads");
+                ipcRenderer.send(CHANNELS.removeLl6, true);
+                location.href = "../../mainWindow.html";
+            };
+
+            function setInputFilter(textbox, inputFilter) {
+                ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function (event) {
+                    textbox.addEventListener(event, function () {
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        }
+                    });
+                });
+            }
+
+            // STEP 1 //
+            const _step1Click = () => {
+                const STEP = STATION1.datetime.ll6.step1;
+                setInputFilter(document.getElementById('step1OnHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step1OnHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step1OnMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step1OnMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step1OnSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step1OnSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onSS, data);
+                        }
+                    };
+                });
+
+                // Off //
+                setInputFilter(document.getElementById('step1OffHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step1OffHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step1OffMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step1OffMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step1OffSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step1OffSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offSS, data);
+                        }
+                    };
+                });
+            };
+            _step1Click();
+
+            // Step 2
+            const _step2Click = () => {
+                const STEP = STATION1.datetime.ll6.step2;
+                setInputFilter(document.getElementById('step2OnHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step2OnHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step2OnMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step2OnMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step2OnSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step2OnSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onSS, data);
+                        }
+                    };
+                });
+
+                // Off //
+                setInputFilter(document.getElementById('step2OffHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step2OffHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step2OffMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step2OffMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step2OffSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step2OffSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offSS, data);
+                        }
+                    };
+                });
+            };
+            _step2Click();
+
+            // Step 3
+            const _step3Click = () => {
+                const STEP = STATION1.datetime.ll6.step3;
+                setInputFilter(document.getElementById('step3OnHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step3OnHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step3OnMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step3OnMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step3OnSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step3OnSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onSS, data);
+                        }
+                    };
+                });
+
+                // Off //
+                setInputFilter(document.getElementById('step3OffHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step3OffHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step3OffMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step3OffMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step3OffSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step3OffSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offSS, data);
+                        }
+                    };
+                });
+            };
+            _step3Click();
+
+            // Step 4
+            const _step4Click = () => {
+                const STEP = STATION1.datetime.ll6.step4;
+                setInputFilter(document.getElementById('step4OnHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step4OnHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step4OnMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step4OnMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step4OnSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step4OnSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.onSS, data);
+                        }
+                    };
+                });
+
+                // Off //
+                setInputFilter(document.getElementById('step4OffHH'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 23 && value.length <= 2);
+                });
+                $('#step4OffHH').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offHH, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step4OffMM'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step4OffMM').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offMM, data);
+                        }
+                    };
+                });
+
+                setInputFilter(document.getElementById('step4OffSS'), function (value) {
+                    return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 59 && value.length <= 2);
+                });
+                $('#step4OffSS').on('keypress', function (e) {
+                    if (e.which === 13) {
+                        const data = parseInt(this.value);
+                        if (data >= 0) {
+                            ipcRenderer.send(STEP.offSS, data);
+                        }
+                    };
+                });
+            };
+            _step4Click();
+
+        };
+        // Show when ready
+        $(document).ready(() => {
+            // Send station id to init connection
+            ipcRenderer.send(CHANNELS.onLLn, 6);
+
+            _startViewModel();
+            _getFromStore();
+            $('body').show();
+            _readStreaming();
+            _buttonClick();
+        });
+
+    </script>
+
+</body>
+
+</html>
