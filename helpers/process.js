@@ -4,12 +4,16 @@ var mc = require('mcprotocol');
 var conn = new mc;
 var doneReading = false;
 var doneWriting = false;								// See setTranslationCB below for more examples
-var startRegister = 'M00';
-var stopRegister = 'M10';
-var speed1Register = 'D01';
-var torque1Register = 'D00';
+const { machine } = require('./environments');
+const writeHelper = require('./writeHelper');
 
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
+
+function addAllItems() {
+    for (const key of machine) {
+        conn.addItems(machine[key]);
+    }
+}
 
 function connected(err) {
 	if (typeof(err) !== "undefined") {
@@ -17,12 +21,7 @@ function connected(err) {
 		console.log(err);
 		process.exit();
     }	
-	
-    conn.addItems(startRegister);
-    conn.addItems(stopRegister);
-    conn.addItems(speed1Register);
-    conn.addItems(torque1Register);
-	conn.readAllItems(valuesReady);	
+    addAllItems();
 }
 
 function valuesReady(anythingBad, values) {
@@ -44,25 +43,41 @@ module.exports = (mainWindow) => {
 
     ipcMain.on('start', (e, isOn) => {
         console.log('isOn ', isOn);
-        conn.writeItems(startRegister, 1, function(anythingBad) {
-            conn.readAllItems(valuesReady);
-        });
+        doneReading = false;
+        doneWriting = false;
 
-        setTimeout(() => {
-            conn.writeItems(startRegister, 0, function(anythingBad) {
-                conn.readAllItems(valuesReady);
+        writeHelper(conn, machine.startRegister, 1)
+            .then(register => {
+                console.log('write to ', register);
+                return writeHelper(conn, machine.startRegister, 0);
+            })
+            .then(register => {
+                console.log('write to ', register);
             });
-        }, 1000);
+
+        // conn.writeItems(machine.startRegister, 1, function(err) {
+        //     if (doneWriting && !err) {
+        //         conn.writeItems(machine.startRegister, 0, function(err) {
+        //             conn.readAllItems(valuesReady);
+        //         });
+        //     }
+        // });
+
+        // setTimeout(() => {
+        //     conn.writeItems(machine.startRegister, 0, function(anythingBad) {
+        //         conn.readAllItems(valuesReady);
+        //     });
+        // }, 1000);
         
     });
 
     ipcMain.on('stop', (e, isOff) => {
         console.log('isOff ', isOff);
-        conn.writeItems(stopRegister, 1, (anythingBad) => {
+        conn.writeItems(machine.stopRegister, 1, (anythingBad) => {
         });
 
         setTimeout(() => {
-            conn.writeItems(stopRegister, 0, function(anythingBad) {
+            conn.writeItems(machine.stopRegister, 0, function(anythingBad) {
                 conn.readAllItems(valuesReady);
             });
         }, 1000);
@@ -70,11 +85,11 @@ module.exports = (mainWindow) => {
 
     ipcMain.on('speed1', (e, speed1) => {
         console.log('speed1 ', speed1);
-        conn.writeItems(speed1Register, speed1, valuesWritten);
+        conn.writeItems(machine.speed1Register, speed1, valuesWritten);
     });
     
     ipcMain.on('torque1', (e, torque1) => {
         console.log('torque1 ', torque1);
-        conn.writeItems(torque1Register, torque1, valuesWritten);
+        conn.writeItems(machine.torque1Register, torque1, valuesWritten);
     });
 };
