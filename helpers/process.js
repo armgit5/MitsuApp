@@ -4,7 +4,7 @@ var mc = require('mcprotocol');
 var conn = new mc;
 var doneReading = false;
 var doneWriting = false;								// See setTranslationCB below for more examples
-const { machine, commChannels } = require('./environments');
+const { machine } = require('./environments');
 const writeHelper = require('./writeHelper');
 
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
@@ -28,56 +28,48 @@ function valuesReady(anythingBad, values) {
 	if (anythingBad) { console.log("SOMETHING WENT WRONG READING VALUES!!!!"); }
 	console.log(values);
 	doneReading = true;
-	// if (doneWriting) { process.exit(); }
 }
 
 function valuesWritten(anythingBad) {
 	if (anythingBad) { console.log("SOMETHING WENT WRONG WRITING VALUES!!!!"); }
 	console.log("Done writing.");
 	doneWriting = true;
-	// if (doneReading) { process.exit(); }
 }
 
 module.exports = (mainWindow) => {
     console.log('staring process');
 
     // Starting the machine
-    ipcMain.on(commChannels.start, (e, isOn) => {
-        console.log('isOn ', isOn);
+    ipcMain.on(machine.start, (e, isOn) => {
         doneReading = false;
         doneWriting = false;
+        console.log('start ', isOn);
 
-        writeHelper(conn, machine.startRegister, 1)
+        writeHelper(conn, machine.start, 1)
             .then(register => {
-                console.log('write to ', register);
-                return writeHelper(conn, machine.startRegister, 0);
+                return writeHelper(conn, machine.start, 0);
             })
             .then(register => {
-                console.log('write to ', register);
             });
         
     });
 
     // Stopping the machine
-    ipcMain.on(commChannels.stop, (e, isOff) => {
-        console.log('isOff ', isOff);
-        conn.writeItems(machine.stopRegister, 1, (anythingBad) => {
-        });
-
-        setTimeout(() => {
-            conn.writeItems(machine.stopRegister, 0, function(anythingBad) {
-                conn.readAllItems(valuesReady);
+    ipcMain.on(machine.stop, (e, isOff) => {
+        console.log('stop ', isOff);
+        writeHelper(conn, machine.stop, 1)
+            .then(register => {
+                return writeHelper(conn, machine.stop, 0);
+            })
+            .then(register => {
             });
-        }, 1000);
     });
 
-    ipcMain.on('speed1', (e, speed1) => {
-        console.log('speed1 ', speed1);
-        conn.writeItems(machine.speed1Register, speed1, valuesWritten);
+    ipcMain.on(machine.speed, (e, speed) => {
+        conn.writeItems(machine.unwindSpeed, speed, valuesWritten);
     });
     
-    ipcMain.on('torque1', (e, torque1) => {
-        console.log('torque1 ', torque1);
-        conn.writeItems(machine.torque1Register, torque1, valuesWritten);
+    ipcMain.on(machine.torque, (e, torque) => {
+        conn.writeItems(machine.unwindTorque, torque, valuesWritten);
     });
 };

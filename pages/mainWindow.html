@@ -41,6 +41,7 @@
   <script>
     const electron = require('electron');
     const { ipcRenderer } = electron;
+    const { machine } = require('../helpers/environments');
     let vm;
 
     const startViewModel = () => {
@@ -56,18 +57,18 @@
 
     const click = () => {
       document.getElementById('start').onclick = () => {
-        ipcRenderer.send('start', true);
+        ipcRenderer.send(machine.start, true);
       };
 
       document.getElementById('stop').onclick = () => {
-        ipcRenderer.send('stop', true);
+        ipcRenderer.send(machine.stop, true);
       };
 
       $('#speed1').on('keypress', function (e) {
         if (e.which === 13) {
           const data = parseInt(this.value);
           if (data >= 0) {
-            ipcRenderer.send('speed1', data);
+            ipcRenderer.send(machine.speed, data);
           }
         };
       });
@@ -76,7 +77,7 @@
         if (e.which === 13) {
           const data = parseInt(this.value);
           if (data >= 0) {
-            ipcRenderer.send('torque1', data);
+            ipcRenderer.send(machine.torque, data);
           }
         };
       });

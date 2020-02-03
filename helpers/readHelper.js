@@ -1,8 +1,7 @@
-module.exports = (NODE) => {
+module.exports = (conn) => {
     return new Promise((resolve, reject) => {
-        if (NODE.conn) {
-            NODE.conn.readAllItems((err, data) => {
-                NODE.doneReading = true;
+        if (conn) {
+            conn.readAllItems((err, data) => {
                 if (err) {
                     reject('Error reading ', err);
                 } else {
