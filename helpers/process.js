@@ -10,7 +10,7 @@ const writeHelper = require('./writeHelper');
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
 
 function addAllItems() {
-    for (const key of machine) {
+    for (const key in machine) {
         conn.addItems(machine[key]);
     }
 }
@@ -55,20 +55,6 @@ module.exports = (mainWindow) => {
             .then(register => {
                 console.log('write to ', register);
             });
-
-        // conn.writeItems(machine.startRegister, 1, function(err) {
-        //     if (doneWriting && !err) {
-        //         conn.writeItems(machine.startRegister, 0, function(err) {
-        //             conn.readAllItems(valuesReady);
-        //         });
-        //     }
-        // });
-
-        // setTimeout(() => {
-        //     conn.writeItems(machine.startRegister, 0, function(anythingBad) {
-        //         conn.readAllItems(valuesReady);
-        //     });
-        // }, 1000);
         
     });
 
