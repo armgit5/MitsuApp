@@ -24,6 +24,8 @@
     <div class="row" style="margin-top: 30px;">
       <button type="button" class="btn btn-success" id="start">Start</button>
       <button type="button" class="btn btn-danger" id="stop">Stop</button>
+      <button type="button" class="btn" id="speedUp">Speed Up</button>
+      <button type="button" class="btn" id="speedDown">Speed Down</button>
 
       <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed" id="speed">
       <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque" id="torque">
@@ -62,6 +64,14 @@
 
       document.getElementById('stop').onclick = () => {
         ipcRenderer.send(machine.stop, true);
+      };
+
+      document.getElementById('speedUp').onclick = () => {
+        ipcRenderer.send(machine.notRealRegisters.speedUp, true);
+      };
+
+      document.getElementById('speedDown').onclick = () => {
+        ipcRenderer.send(machine.notRealRegisters.speedDown, true);
       };
 
       $('#speed').on('keypress', function (e) {

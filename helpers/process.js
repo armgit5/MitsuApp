@@ -1,12 +1,12 @@
 const { ipcMain } = require('electron');
 
 var mc = require('mcprotocol');
-var conn = new mc;
-var doneReading = false;
-var doneWriting = false;								// See setTranslationCB below for more examples
+var conn = new mc; // See setTranslationCB below for more examples
 const { machine } = require('./environments');
 const writeHelper = require('./writeHelper');
 const subscribeRegisters = require('./subscribeRegisters');
+
+let MACHINE_SPEED = 0;
 
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
 
@@ -30,13 +30,11 @@ function connected(err) {
 function valuesReady(anythingBad, values) {
 	if (anythingBad) { console.log("SOMETHING WENT WRONG READING VALUES!!!!"); }
 	console.log(values);
-	doneReading = true;
 }
 
 function valuesWritten(anythingBad) {
 	if (anythingBad) { console.log("SOMETHING WENT WRONG WRITING VALUES!!!!"); }
 	console.log("Done writing.");
-	doneWriting = true;
 }
 
 module.exports = (mainWindow) => {
@@ -70,7 +68,41 @@ module.exports = (mainWindow) => {
     });
 
     ipcMain.on(machine.notRealRegisters.speed, (e, speed) => {
-        conn.writeItems(machine.unwindSpeed, speed, valuesWritten);
+        MACHINE_SPEED = speed;
+        conn.writeItems(machine.unwindSpeed, MACHINE_SPEED, valuesWritten);
+        writeHelper(conn, machine.unwindSpeed, MACHINE_SPEED).then(register => {
+            console.log('write to ', register);
+        });
+    });
+
+    ipcMain.on(machine.notRealRegisters.speedUp, (e, isSet) => {
+        console.log('speed up');
+
+        let doneWriting;
+        MACHINE_SPEED += 100;
+
+        if (doneWriting === undefined || doneWriting) {
+            doneWriting = false;
+            writeHelper(conn, machine.unwindSpeed, MACHINE_SPEED).then(register => {
+                console.log('write to ', register, MACHINE_SPEED);
+                doneWriting = true;
+            });
+        }
+    });
+
+    ipcMain.on(machine.notRealRegisters.speedDown, (e, isSet) => {
+        console.log('speed down');
+
+        let doneWriting;
+        MACHINE_SPEED -= 100;
+
+        if (doneWriting === undefined || doneWriting) {
+            doneWriting = false;
+            writeHelper(conn, machine.unwindSpeed, MACHINE_SPEED).then(register => {
+                console.log('write to ', register, MACHINE_SPEED);
+                doneWriting = true;
+            });
+        }
     });
     
     ipcMain.on(machine.notRealRegisters.torque, (e, torque) => {

@@ -8,7 +8,9 @@ const machine = {
     rewindTorque: 'D02',
     notRealRegisters: {
         speed: 'speed',
-        torque: 'torque'
+        torque: 'torque',
+        speedUp: 'speedUp',
+        speedDown: 'speedDown'
     }
 };
 
