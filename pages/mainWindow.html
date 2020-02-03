@@ -25,8 +25,8 @@
       <button type="button" class="btn btn-success" id="start">Start</button>
       <button type="button" class="btn btn-danger" id="stop">Stop</button>
 
-      <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed1" id="speed1">
-      <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque1" id="torque1">
+      <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed" id="speed">
+      <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque" id="torque">
     </div>
   </div>
 
@@ -47,8 +47,8 @@
     const startViewModel = () => {
 
       function AppViewModel() {
-        this.speed1 = ko.observable(0);
-        this.torque1 = ko.observable(0);
+        this.speed = ko.observable(0);
+        this.torque = ko.observable(0);
       }
 
       vm = new AppViewModel();
@@ -64,20 +64,20 @@
         ipcRenderer.send(machine.stop, true);
       };
 
-      $('#speed1').on('keypress', function (e) {
+      $('#speed').on('keypress', function (e) {
         if (e.which === 13) {
           const data = parseInt(this.value);
           if (data >= 0) {
-            ipcRenderer.send(machine.speed, data);
+            ipcRenderer.send(machine.notRealRegisters.speed, data);
           }
         };
       });
 
-      $('#torque1').on('keypress', function (e) {
+      $('#torque').on('keypress', function (e) {
         if (e.which === 13) {
           const data = parseInt(this.value);
           if (data >= 0) {
-            ipcRenderer.send(machine.torque, data);
+            ipcRenderer.send(machine.notRealRegisters.torque, data);
           }
         };
       });

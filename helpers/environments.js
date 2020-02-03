@@ -6,8 +6,11 @@ const machine = {
     unwindTorque: 'D00',
     rewindSpeed: 'D03',
     rewindTorque: 'D02',
-    speed: 'speed',
-    torque: 'torque'
+    notRealRegisters: {
+        speed: 'speed',
+        torque: 'torque'
+    }
 };
 
+module.exports.intervalTime = 1000;
 module.exports.machine = machine;

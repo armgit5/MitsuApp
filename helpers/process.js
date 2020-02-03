@@ -6,12 +6,15 @@ var doneReading = false;
 var doneWriting = false;								// See setTranslationCB below for more examples
 const { machine } = require('./environments');
 const writeHelper = require('./writeHelper');
+const subscribeRegisters = require('./subscribeRegisters');
 
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
 
 function addAllItems() {
     for (const key in machine) {
-        conn.addItems(machine[key]);
+        if (key != 'notRealRegisters') {
+            conn.addItems(machine[key]);
+        }
     }
 }
 
@@ -52,6 +55,7 @@ module.exports = (mainWindow) => {
             .then(register => {
             });
         
+        subscribeRegisters(conn, machine.unwindSpeed);
     });
 
     // Stopping the machine
@@ -65,11 +69,11 @@ module.exports = (mainWindow) => {
             });
     });
 
-    ipcMain.on(machine.speed, (e, speed) => {
+    ipcMain.on(machine.notRealRegisters.speed, (e, speed) => {
         conn.writeItems(machine.unwindSpeed, speed, valuesWritten);
     });
     
-    ipcMain.on(machine.torque, (e, torque) => {
+    ipcMain.on(machine.notRealRegisters.torque, (e, torque) => {
         conn.writeItems(machine.unwindTorque, torque, valuesWritten);
     });
 };
