@@ -4,7 +4,7 @@ var mc = require('mcprotocol');
 var conn = new mc;
 var doneReading = false;
 var doneWriting = false;								// See setTranslationCB below for more examples
-const { machine } = require('./environments');
+const { machine, commChannels } = require('./environments');
 const writeHelper = require('./writeHelper');
 
 conn.initiateConnection({port: 1281, host: '192.168.0.100', ascii: false}, connected); 
@@ -41,7 +41,8 @@ function valuesWritten(anythingBad) {
 module.exports = (mainWindow) => {
     console.log('staring process');
 
-    ipcMain.on('start', (e, isOn) => {
+    // Starting the machine
+    ipcMain.on(commChannels.start, (e, isOn) => {
         console.log('isOn ', isOn);
         doneReading = false;
         doneWriting = false;
@@ -71,7 +72,8 @@ module.exports = (mainWindow) => {
         
     });
 
-    ipcMain.on('stop', (e, isOff) => {
+    // Stopping the machine
+    ipcMain.on(commChannels.stop, (e, isOff) => {
         console.log('isOff ', isOff);
         conn.writeItems(machine.stopRegister, 1, (anythingBad) => {
         });
