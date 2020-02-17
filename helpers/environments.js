@@ -10,6 +10,7 @@ const machine = {
         speed: 'speed',
         torque: 'torque',
         speedUp: 'speedUp',
+        speedUpVal: 'speedUpVal',
         speedDown: 'speedDown'
     }
 };

@@ -90,6 +90,31 @@ module.exports = (mainWindow) => {
         }
     });
 
+    ipcMain.on(machine.notRealRegisters.speedUpVal, (e, val) => {
+        console.log('speed up val ', val);
+
+        let doneWriting;
+        let doneWriting2;
+
+        if (doneWriting === undefined || doneWriting) {
+            doneWriting = false;
+            writeHelper(conn, machine.unwindSpeed, val).then(register => {
+                console.log('write to ', register, val);
+                // doneWriting = true;
+                return writeHelper(conn, machine.rewindSpeed, val);
+            })
+            .then(register => {
+                console.log('write to ', register, val);
+                doneWriting = true;
+            });
+        }
+
+        if (doneWriting2 === undefined || doneWriting2) {
+            doneWriting2 = false;
+            
+        }
+    });
+
     ipcMain.on(machine.notRealRegisters.speedDown, (e, isSet) => {
         console.log('speed down');
 

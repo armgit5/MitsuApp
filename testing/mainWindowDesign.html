@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PLC Controllers App</title>
+
+  <!-- <link rel="stylesheet" href="../assets/styles/mainWindow.css"> -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+  crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+  integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+  crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+  crossorigin="anonymous"></script>
+
+  <style>
+    .long {
+      width: 200px;
+    }
+
+    .main {
+      margin: 0px;
+    }
+
+
+    #jog_dial_example {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 20px auto;
+      background: url('base_one_bg.png');
+      background-repeat: none;
+    }
+
+    #jog_dial_example #jog_dial_example_knob {
+      background: url('base_one_knob.png');
+    }
+
+    #jog_dial_example_meter {
+      width: 200px;
+      height: 10px;
+      margin: 20px auto 30px;
+      background: #999;
+      overflow: hidden;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      -ms-border-radius: 5px;
+      -o-border-radius: 5px;
+      border-radius: 5px;
+    }
+
+    #jog_dial_example_meter div {
+      position: relative;
+      width: 0;
+      height: 100%;
+      background: #80e93a;
+    }
+  </style>
+</head>
+
+<body style="text-align: center;">
+
+  <div class="container" style="width: 500px; height: 640px;
+    background-color: lightcoral;">
+
+    <div class="row">
+      <div class="col">
+        <input type="text" 
+              data-width="100" 
+              data-height="100" 
+              data-min="0"
+              data-max="6000"
+              value="0" 
+              class="unwinderSpeed">
+        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
+      </div>
+
+      <div class="col">
+        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
+        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
+      </div>
+    </div>
+
+    <div class="row" style="text-align: center;">
+      <div class="col">
+        Speed 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Speed 2
+      </div>
+
+      <div class="col">
+        Speed 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Speed 2
+      </div>
+    
+      
+      <!-- <input type="text" value="0" class="unwinderSpeed">
+      <input type="text" value="0" id="unwinderTorque"> -->
+    </div>
+
+    
+
+
+    <div class="row" style="margin-top: 30px; text-align: center;">
+      <div class="col">
+      <img src="../assets/images/green.png" alt="home" style="height: 100px; margin: 10px;" />
+      <img src="../assets/images/red.png" alt="home" style="height: 100px; margin: 10px;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- <button type="button" class="btn btn-danger" id="stop">Stop</button>
+  <button type="button" class="btn" id="speedUp">Speed Up</button>
+  <button type="button" class="btn" id="speedDown">Speed Down</button>
+
+  <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed" id="speed">
+  <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque" id="torque"> -->
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+  <script src="../helpers/jogDial.min.js"></script>
+  <script src="../helpers/jquery.knob.min.js"></script>
+
+  <script>
+
+    // $(document).ready(function () {
+    //   var dialOne = JogDial(document.getElementById('jog_dial_example'),
+    //     { wheelSize: '200px', knobSize: '70px', minDegree: 0, maxDegree: 360, degreeStartAt: 0 })
+    //     .on('mousemove', function (evt) {
+    //       $('#jog_dial_example_meter div').css('width', Math.round((evt.target.rotation / 360) * 100) + '%')
+    //     });
+    // });
+
+    $(function() {
+        $(".unwinderSpeed").knob({
+            'change' : function (v) { console.log(v); }
+        });
+        $("#unwinderTorque").knob();
+    });
+
+  </script>
+
+</body>
+
+</html>
