@@ -59,7 +59,7 @@ app.on('window-all-closed', function () {
 // Create menu template
 const mainMenuTemplate = [
     {
-        label: "                                                                                                                                                                                      V2.8"
+        label: "                                                                                                                                                                                      V1.0"
     }
 ];
 
