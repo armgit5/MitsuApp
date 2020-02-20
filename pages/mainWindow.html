@@ -26,6 +26,37 @@
     #knob {
       background: url('knob.png');
     }
+
+    a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+    }
+
+    a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .previous {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .next {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .round {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .round-box {
+      padding-top: 25px;
+    }
   </style>
 </head>
 
@@ -33,52 +64,26 @@
 
   <div class="container">
 
-
-    <div class="row" style="margin-top: 75px;">
-      <div class="col">
-        <input type="text" 
-          data-width="100" 
-          data-height="100" 
-          value="0" 
-          data-min="0"
-          data-max="6000"
-          class="unwinderSpeed">
-        <!-- <input type="text" data-width="100" data-height="100" value="0" class="unwinderTorque"> -->
-      </div>
-
-      <!-- <div class="col">
-        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
-        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
-      </div> -->
-    </div>
-
-    <div class="row" style="text-align: center;">
-      <div class="col">
-        Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <!-- Unw Torque -->
-      </div>
-
-      <!-- <div class="col">
-        Rew Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rew Torque
-      </div> -->
-    </div>
-
+    <h1 style="font-weight: 300; margin-top: 50px;">PLC Controller</h1> 
 
     <div class="row" style="margin-top: 75px; text-align: center;">
+      <div class="col round-box">
+        <a href="#" id="reverse" class="previous round">&#8249;</a>
+      </div>
+      <div class="col round-box">
+        <a href="#" id="speedDown" class="previous round">&#8249;&#8249;</a>
+      </div>
       <div class="col">
-        <img src="../assets/images/green.png" alt="home" id="start" style="height: 100px; margin: 10px;" />
-
         <img src="../assets/images/red.png" alt="home" id="stop" style="height: 100px; margin: 10px;" />
+      </div>
+      <div class="col round-box">
+        <a href="#" id="speedUp" class="next round">&#8250;&#8250;</a>   
+      </div>
+      <div class="col round-box">
+        <a href="#" id="forward" class="next round">&#8250;</a>
       </div>
     </div>
   </div>
-
-  <!-- <button type="button" class="btn btn-danger" id="stop">Stop</button>
-  <button type="button" class="btn" id="speedUp">Speed Up</button>
-  <button type="button" class="btn" id="speedDown">Speed Down</button>
-
-  <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed" id="speed">
-  <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque" id="torque"> -->
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -102,16 +107,9 @@
     $(".unwinderSpeed").knob({
       'release': function (v) { 
         console.log(v); 
-        ipcRenderer.send(machine.notRealRegisters.speedUpVal, v);
+        ipcRenderer.send(machine.commChannels.speedUpVal, v);
       }
     });
-
-    // $(".unwinderTorque").knob({
-    //   // 'change': function (v) { 
-    //   //   console.log(v); 
-    //   //   ipcRenderer.send(machine.notRealRegisters.speedUpVal, v);
-    //   // }
-    // });
 
     const startViewModel = () => {
 
@@ -125,39 +123,27 @@
     };
 
     const click = () => {
-      document.getElementById('start').onclick = () => {
-        ipcRenderer.send(machine.start, true);
-      };
 
-      document.getElementById('stop').onclick = () => {
-        ipcRenderer.send(machine.stop, true);
-      };
-
-      document.getElementById('speedUp').onclick = () => {
-        ipcRenderer.send(machine.notRealRegisters.speedUp, true);
+      document.getElementById('reverse').onclick = () => {
+        console.log('reverse');
+        ipcRenderer.send(machine.commChannels.reverse, true);
       };
 
       document.getElementById('speedDown').onclick = () => {
-        ipcRenderer.send(machine.notRealRegisters.speedDown, true);
+        ipcRenderer.send(machine.commChannels.speedDown, true);
       };
 
-      $('#speed').on('keypress', function (e) {
-        if (e.which === 13) {
-          const data = parseInt(this.value);
-          if (data >= 0) {
-            ipcRenderer.send(machine.notRealRegisters.speed, data);
-          }
-        };
-      });
+      document.getElementById('stop').onclick = () => {
+        ipcRenderer.send(machine.commChannels.stop, true);
+      };
 
-      $('#torque').on('keypress', function (e) {
-        if (e.which === 13) {
-          const data = parseInt(this.value);
-          if (data >= 0) {
-            ipcRenderer.send(machine.notRealRegisters.torque, data);
-          }
-        };
-      });
+      document.getElementById('speedUp').onclick = () => {
+        ipcRenderer.send(machine.commChannels.speedUp, true);
+      };
+
+      document.getElementById('forward').onclick = () => {
+        ipcRenderer.send(machine.commChannels.forward, true);
+      };
 
     };
 
