@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>PLC Controllers App</title>
+
+  <link rel="stylesheet" href="../assets/styles/mainWindow.css">
+
+  <style>
+    .long {
+      width: 200px;
+    }
+
+    .main {
+      margin: 0px;
+    }
+
+    #example {
+      width: 200px;
+      height: 200px;
+      background: url('bg.png');
+      background-repeat: none;
+    }
+
+    #knob {
+      background: url('knob.png');
+    }
+  </style>
+</head>
+
+<body style="text-align: center; margin: 10px; display: none;">
+
+  <div class="container">
+
+
+    <div class="row" style="margin-top: 75px;">
+      <div class="col">
+        <input type="text" 
+          data-width="100" 
+          data-height="100" 
+          value="0" 
+          data-min="0"
+          data-max="6000"
+          class="unwinderSpeed">
+        <!-- <input type="text" data-width="100" data-height="100" value="0" class="unwinderTorque"> -->
+      </div>
+
+      <!-- <div class="col">
+        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
+        <input type="text" data-width="100" data-height="100" value="0" class="unwinderSpeed">
+      </div> -->
+    </div>
+
+    <div class="row" style="text-align: center;">
+      <div class="col">
+        Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <!-- Unw Torque -->
+      </div>
+
+      <!-- <div class="col">
+        Rew Speed &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Rew Torque
+      </div> -->
+    </div>
+
+
+    <div class="row" style="margin-top: 75px; text-align: center;">
+      <div class="col">
+        <img src="../assets/images/green.png" alt="home" id="start" style="height: 100px; margin: 10px;" />
+
+        <img src="../assets/images/red.png" alt="home" id="stop" style="height: 100px; margin: 10px;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- <button type="button" class="btn btn-danger" id="stop">Stop</button>
+  <button type="button" class="btn" id="speedUp">Speed Up</button>
+  <button type="button" class="btn" id="speedDown">Speed Down</button>
+
+  <input type="text" class="form-control" placeholder="Speed1" data-bind="value: speed" id="speed">
+  <input type="text" class="form-control" placeholder="Torque1" data-bind="value: torque" id="torque"> -->
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="../helpers/knockout.js"></script>
+  <script src="../helpers/jogDial.min.js"></script>
+  <script src="../helpers/jquery.knob.min.js"></script>
+
+  <!-- IPC script -->
+  <script>
+    const electron = require('electron');
+    const { ipcRenderer } = electron;
+    const { machine } = require('../helpers/environments');
+    let vm;
+
+    let unwSpeedInterval;
+
+
+    $(".unwinderSpeed").knob({
+      'release': function (v) { 
+        console.log(v); 
+        ipcRenderer.send(machine.commChannels.speedUpVal, v);
+      }
+    });
+
+    // $(".unwinderTorque").knob({
+    //   // 'change': function (v) { 
+    //   //   console.log(v); 
+    //   //   ipcRenderer.send(machine.commChannels.speedUpVal, v);
+    //   // }
+    // });
+
+    const startViewModel = () => {
+
+      function AppViewModel() {
+        this.speed = ko.observable(0);
+        this.torque = ko.observable(0);
+      }
+
+      vm = new AppViewModel();
+      ko.applyBindings(vm);
+    };
+
+    const click = () => {
+      document.getElementById('start').onclick = () => {
+        ipcRenderer.send(machine.start, true);
+      };
+
+      document.getElementById('stop').onclick = () => {
+        ipcRenderer.send(machine.stop, true);
+      };
+
+      document.getElementById('speedUp').onclick = () => {
+        ipcRenderer.send(machine.commChannels.speedUp, true);
+      };
+
+      document.getElementById('speedDown').onclick = () => {
+        ipcRenderer.send(machine.commChannels.speedDown, true);
+      };
+
+      $('#speed').on('keypress', function (e) {
+        if (e.which === 13) {
+          const data = parseInt(this.value);
+          if (data >= 0) {
+            ipcRenderer.send(machine.commChannels.speed, data);
+          }
+        };
+      });
+
+      $('#torque').on('keypress', function (e) {
+        if (e.which === 13) {
+          const data = parseInt(this.value);
+          if (data >= 0) {
+            ipcRenderer.send(machine.commChannels.torque, data);
+          }
+        };
+      });
+
+    };
+
+    // Show when ready
+    $(document).ready(() => {
+      $('body').show();
+      click();
+    });
+  </script>
+
+</body>
+
+</html>
