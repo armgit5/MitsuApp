@@ -6,16 +6,16 @@
   "scripts": {
     "start": "electron main.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/bts.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . plc-controllers-app --overwrite --asar --platform=win32 --arch=x64 --icon=assets/icons/win/bts.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"PLC Controller App\"",
-    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/bts.png --prune=true --out=release-builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/pc.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . plc-controllers-app --overwrite --asar --platform=win32 --arch=x64 --icon=assets/icons/win/pc.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"PLC Controller App\"",
+    "package-linux": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^4.1.1",
+    "electron": "^4.2.12",
     "electron-packager": "^13.1.1",
-    "electron-rebuild": "^1.8.4"
+    "electron-rebuild": "^1.10.0"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",
