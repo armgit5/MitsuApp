@@ -40,23 +40,23 @@ function valuesWritten(anythingBad) {
 module.exports = (mainWindow) => {
     console.log('staring process');
 
-    // Reverse
-    ipcMain.on(machine.commChannels.reverse, (e, tick) => {
-        console.log('reverse ', tick);
-        writeHelper(conn, machine.reverse, 1)
+    // increaseRightSpeed
+    ipcMain.on(machine.commChannels.increaseRightSpeed, (e, tick) => {
+        console.log('increaseRightSpeed ', tick);
+        writeHelper(conn, machine.increaseRightSpeed, 1)
             .then(_ => {
-                return writeHelper(conn, machine.reverse, 0);
+                return writeHelper(conn, machine.increaseRightSpeed, 0);
             })
             .then(_ => {
             });
     });
 
-    // Speed down
-    ipcMain.on(machine.commChannels.speedDown, (e, tick) => {
-        console.log('speed down ', tick);
-        writeHelper(conn, machine.speedDown, 1)
+    // decreaseRightSpeed
+    ipcMain.on(machine.commChannels.decreaseRightSpeed, (e, tick) => {
+        console.log('decreaseRightSpeed ', tick);
+        writeHelper(conn, machine.decreaseRightSpeed, 1)
             .then(_ => {
-                return writeHelper(conn, machine.speedDown, 0);
+                return writeHelper(conn, machine.decreaseRightSpeed, 0);
             })
             .then(_ => {
             });
@@ -73,23 +73,23 @@ module.exports = (mainWindow) => {
             });
     });
 
-    // Speed down
-    ipcMain.on(machine.commChannels.speedUp, (e, tick) => {
-        console.log('speed up ', tick);
-        writeHelper(conn, machine.speedUp, 1)
+    // increaseLeftSpeed
+    ipcMain.on(machine.commChannels.increaseLeftSpeed, (e, tick) => {
+        console.log('increaseLeftSpeed ', tick);
+        writeHelper(conn, machine.increaseLeftSpeed, 1)
             .then(_ => {
-                return writeHelper(conn, machine.speedUp, 0);
+                return writeHelper(conn, machine.increaseLeftSpeed, 0);
             })
             .then(_ => {
             });
     });
 
-    // Forward
-    ipcMain.on(machine.commChannels.forward, (e, tick) => {
-        console.log('speed up ', tick);
-        writeHelper(conn, machine.forward, 1)
+    // decreaseLeftSpeed
+    ipcMain.on(machine.commChannels.decreaseLeftSpeed, (e, tick) => {
+        console.log('decreaseLeftSpeed ', tick);
+        writeHelper(conn, machine.decreaseLeftSpeed, 1)
             .then(_ => {
-                return writeHelper(conn, machine.forward, 0);
+                return writeHelper(conn, machine.decreaseLeftSpeed, 0);
             })
             .then(_ => {
             });

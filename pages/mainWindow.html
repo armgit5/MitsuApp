@@ -44,8 +44,9 @@
     }
 
     .next {
-      background-color: #4CAF50;
-      color: white;
+      /* background-color: #4CAF50; */
+      background-color: #f1f1f1;
+      color: black;
     }
 
     .round {
@@ -68,19 +69,21 @@
 
     <div class="row" style="margin-top: 75px; text-align: center;">
       <div class="col round-box">
-        <a href="#" id="reverse" class="previous round">&#8249;</a>
+        <a href="#" id="increaseLeftSpeed" class="previous round">&#8249;</a>
       </div>
       <div class="col round-box">
-        <a href="#" id="speedDown" class="previous round">&#8249;&#8249;</a>
+        <a href="#" id="decreaseLeftSpeed" class="next round">&#8250;</a>
+        <!-- <a href="#" id="speedDown" class="previous round">&#8249;&#8249;</a> -->
       </div>
       <div class="col">
         <img src="../assets/images/red.png" alt="home" id="stop" style="height: 100px; margin: 10px;" />
       </div>
       <div class="col round-box">
-        <a href="#" id="speedUp" class="next round">&#8250;&#8250;</a>   
+        <a href="#" id="decreaseRightSpeed" class="previous round">&#8249;</a>
+        <!-- <a href="#" id="speedUp" class="next round">&#8250;&#8250;</a>    -->
       </div>
       <div class="col round-box">
-        <a href="#" id="forward" class="next round">&#8250;</a>
+        <a href="#" id="increaseRightSpeed" class="next round">&#8250;</a>
       </div>
     </div>
   </div>
@@ -124,25 +127,25 @@
 
     const click = () => {
 
-      document.getElementById('reverse').onclick = () => {
+      document.getElementById('increaseRightSpeed').onclick = () => {
         console.log('reverse');
-        ipcRenderer.send(machine.commChannels.reverse, true);
+        ipcRenderer.send(machine.commChannels.increaseRightSpeed, true);
       };
 
-      document.getElementById('speedDown').onclick = () => {
-        ipcRenderer.send(machine.commChannels.speedDown, true);
+      document.getElementById('decreaseRightSpeed').onclick = () => {
+        ipcRenderer.send(machine.commChannels.decreaseRightSpeed, true);
       };
 
       document.getElementById('stop').onclick = () => {
         ipcRenderer.send(machine.commChannels.stop, true);
       };
 
-      document.getElementById('speedUp').onclick = () => {
-        ipcRenderer.send(machine.commChannels.speedUp, true);
+      document.getElementById('increaseLeftSpeed').onclick = () => {
+        ipcRenderer.send(machine.commChannels.increaseLeftSpeed, true);
       };
 
-      document.getElementById('forward').onclick = () => {
-        ipcRenderer.send(machine.commChannels.forward, true);
+      document.getElementById('decreaseLeftSpeed').onclick = () => {
+        ipcRenderer.send(machine.commChannels.decreaseLeftSpeed, true);
       };
 
     };

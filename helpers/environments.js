@@ -10,6 +10,10 @@ const machine = {
     unwindTorque: 'D00',
     rewindSpeed: 'D03',
     rewindTorque: 'D02',
+    increaseRightSpeed: 'M200',
+    decreaseRightSpeed: 'M100',
+    increaseLeftSpeed: 'M201',
+    decreaseLeftSpeed: 'M101',
     commChannels: {
         speed: 'speed',
         torque: 'torque',
@@ -18,7 +22,11 @@ const machine = {
         speedDown: 'speedDown',
         reverse: 'reverse',
         forward: 'forward',
-        stop: 'stop'
+        stop: 'stop',
+        increaseRightSpeed: 'increaseRightSpeed',
+        decreaseRightSpeed: 'decreaseRightSpeed',
+        increaseLeftSpeed: 'increaseLeftSpeed',
+        decreaseLeftSpeed: 'decreaseLeftSpeed'
     }
 };
 
